@@ -8,13 +8,13 @@ import math
 capture = cv2.VideoCapture(0)
 print(capture.get(cv2.CAP_PROP_FPS))
 
-t = 100     # threshold of canny edge detector
+t = 50      # threshold of canny edge detector
 w = 640     # width of image for uniformity
 
 # hough circle params
 sc = 1      # scale
-md = 30     # minimum distance between 2 circles
-at = 40     # accumulator threshold, small numbers are more sensitive to false pos but make detection tolerant
+md = 20     # minimum distance between 2 circles
+at = 30     # accumulator threshold, small numbers are more sensitive to false pos but make detection tolerant
     
 
 while True:
@@ -27,7 +27,7 @@ while True:
 
     # filters
     grey = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    blurred = cv2.medianBlur(grey, 15)
+    blurred = cv2.medianBlur(grey, 5)
 
     # 2x2 grid with all previews
     grid = np.zeros([2*h, 2*w, 3], np.uint8)
@@ -38,7 +38,7 @@ while True:
     grid[0:h, w:2*w] = np.dstack([blurred] * 3)                         # blurred grey image
     grid[h:2*h, w:2*w] = np.dstack([cv2.Canny(blurred, t / 2, t)] * 3)  # edge detection on blurred greyscale (reduces bg noise)
 
-    # cv2.imshow("Image previews", grid)
+    cv2.imshow("Image previews", grid)
 
     # hough gradients for circle detection
     circles = cv2.HoughCircles(blurred, cv2.HOUGH_GRADIENT, sc, md, t, at)
