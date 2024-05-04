@@ -1,2 +1,2 @@
-# ar-opencv
-Creating an AR project using OpenCV in Python
+# opencv-projs
+Creating projects using OpenCV 
